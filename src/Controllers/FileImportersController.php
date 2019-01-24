@@ -19,7 +19,7 @@ class FileImportersController
 
         $service = new ContentService;
 
-        $types = $service->getTypes();
+        $types = $service->getTypesForJs();
 
         return view('cms:fileImporter::index', compact('pages', 'types'));
     }

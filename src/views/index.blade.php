@@ -45,6 +45,10 @@
 			      </span>
 				@endif
 			</div>
+			
+			<div class="form-group">
+				<button class="btn btn-success">Submit</button>
+			</div>
 		</form>
 	</div>
 @endsection

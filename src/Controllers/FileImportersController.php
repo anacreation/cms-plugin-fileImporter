@@ -11,44 +11,56 @@ namespace Anacreation\CmsFileImporter\Controllers;
 use Anacreation\Cms\Models\Language;
 use Anacreation\Cms\Models\Page;
 use Anacreation\Cms\Services\ContentService;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class FileImportersController
+class FileImportersController extends Controller
 {
     public function index(Request $request, ContentService $service) {
         $pages = Page::pluck('uri', 'id');
 
         $types = $service->getTypesForJs();
+        $langCodes = Language::activeLanguages()->pluck('code');
 
-        return view('cms:fileImporter::index', compact('pages', 'types'));
+        return view('cms:fileImporter::index',
+            compact('pages', 'types', 'langCodes'));
     }
 
+    /**
+     * @param \Illuminate\Http\Request                 $request
+     * @param \Anacreation\Cms\Services\ContentService $service
+     * @return mixed
+     * @throws \Anacreation\Cms\Exceptions\IncorrectContentTypeException
+     */
     public function load(Request $request, ContentService $service) {
 
         $this->validate($request, [
             'path'         => 'required',
             'identifier'   => 'required',
             'page_id'      => 'required|exists:pages,id',
+            'lang_code'    => 'required|exists:languages,code',
             'content_type' => 'required|in:' . implode(',',
                     $service->getTypesForJs()),
         ]);
+
+        $this->execute($request, $service);
 
         return redirect()->route('cms:plugins:fileImporters.index')
                          ->withStatus('Loaded!');
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request                 $request
+     * @param \Anacreation\Cms\Services\ContentService $service
      * @throws \Anacreation\Cms\Exceptions\IncorrectContentTypeException
      */
-    private function execute(Request $request) {
-        $service = new \Anacreation\Cms\Services\ContentService();
+    private function execute(Request $request, ContentService $service) {
 
-        $language = Language::whereCode('en')->first();
+        $language = Language::whereCode($request->get('lang_code'))->first();
 
-        $files = File::files(storage_path('app/temp'));
-        $page = Page::whereUri($request->get('uri'))->first();
+        $files = File::files(storage_path('app/' . $request->get('path')));
+        $page = Page::whereUri($request->get('page_id'))->first();
 
         /** @var \SplFileInfo $file */
         foreach ($files as $index => $file) {
@@ -57,8 +69,12 @@ class FileImportersController
             $uploadFile = new \Illuminate\Http\UploadedFile($path,
                 $file->getFilename());
 
-            $contentObject = new \Anacreation\Cms\Entities\ContentObject("image_" . ($index + 1),
-                $language->id, "", 'scaledImage', $uploadFile);
+            $contentObject = new \Anacreation\Cms\Entities\ContentObject(
+                $request->get('identifier') . ($index + 1),
+                $language->id,
+                "",
+                $request->get('content_type'),
+                $uploadFile);
 
             $service->updateOrCreateContentIndexWithContentObject($page,
                 $contentObject);

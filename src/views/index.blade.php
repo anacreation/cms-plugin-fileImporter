@@ -35,6 +35,15 @@
 			      </span>
 				@endif
 			</div>
+			<div class="form-group">
+				{{Form::label('lang_code','Identifier Prefix',['class'=>'form-label'])}}
+				{{Form::select('lang_code',array_merge($langCodes,$langCodes),null,['class'=>$errors->has('lang_code')?"form-control is-invalid":"form-control",'required'])}}
+				@if ($errors->has('lang_code'))
+					<span class="invalid-feedback">
+			          <strong>{{ $errors->first('lang_code') }}</strong>
+			      </span>
+				@endif
+			</div>
 			
 			<div class="form-group">
 				{{Form::label('content_type','Content Type',['class'=>'form-label'])}}

@@ -25,6 +25,9 @@ class FileImporter
                         Route::get('/',
                             FileImportersController::class . "@index")
                              ->name('cms:plugins:fileImporters.index');
+                        Route::post('/',
+                            FileImportersController::class . "@load")
+                             ->name('cms:plugins:fileImporters.action');
                     });
 
             });

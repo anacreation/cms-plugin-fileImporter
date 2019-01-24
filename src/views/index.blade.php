@@ -2,9 +2,12 @@
 
 @section("content")
 	<div class="container">
-		<form>
+		<form action="{{route('cms:plugins:fileImporters.action')}}"
+		      method="POST">
+			
+			{{csrf_field()}}
 			<div class="form-group">
-				{{Form::label('path','Name',['class'=>'form-label'])}}
+				{{Form::label('path','Path',['class'=>'form-label'])}}
 				{{Form::text('path',null,['class'=>$errors->has('path')?"form-control is-invalid":"form-control",'required'])}}
 				@if ($errors->has('path'))
 					<span class="invalid-feedback">

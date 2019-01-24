@@ -13,6 +13,6 @@ use Illuminate\Http\Request;
 class FileImportersController
 {
     public function index(Request $request) {
-        return view('cms:fileImporter.index');
+        return view('cms:fileImporter::index');
     }
 }

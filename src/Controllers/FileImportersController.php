@@ -21,7 +21,7 @@ class FileImportersController extends Controller
         $pages = Page::pluck('uri', 'id');
 
         $types = $service->getTypesForJs();
-        $langCodes = Language::activeLanguages()->pluck('code');
+        $langCodes = Language::whereIsActive(true)->pluck('code');
 
         return view('cms:fileImporter::index',
             compact('pages', 'types', 'langCodes'));

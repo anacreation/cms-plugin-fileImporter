@@ -3,17 +3,11 @@
 namespace Anacreation\CmsFileImporter;
 
 use Anacreation\Cms\Models\Cms;
-use Anacreation\CmsEmail\Commands\EmailCommand;
 use Anacreation\CmsEmail\Models\FileImporter;
-use Anacreation\Notification\Provider\Contracts\EmailSender;
-use Anacreation\Notification\Provider\ServiceProviders\SendGrid;
 use Illuminate\Support\ServiceProvider;
 
 class CmsFileImporterServiceProvider extends ServiceProvider
 {
-    protected $commands = [
-        EmailCommand::class
-    ];
 
     /**
      * Bootstrap any application services.
@@ -22,17 +16,9 @@ class CmsFileImporterServiceProvider extends ServiceProvider
      */
     public function boot() {
 
-        $this->loadMigrationsFrom(__DIR__ . '/migrations');
-
         $this->views();
 
         $this->registerCmsPlugin();
-
-        app()->bind(EmailSender::class, SendGrid::class);
-
-        if ($this->app->runningInConsole()) {
-            $this->commands($this->commands);
-        }
 
     }
 

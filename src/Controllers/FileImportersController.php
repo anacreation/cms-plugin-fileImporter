@@ -8,11 +8,19 @@
 namespace Anacreation\CmsFileImporter\Controllers;
 
 
+use Anacreation\Cms\Models\Page;
+use Anacreation\Cms\Services\ContentService;
 use Illuminate\Http\Request;
 
 class FileImportersController
 {
     public function index(Request $request) {
-        return view('cms:fileImporter::index');
+        $pages = Page::pluck('uri', 'id');
+
+        $service = new ContentService;
+
+        $types = $service->getTypes();
+
+        return view('cms:fileImporter::index', compact('pages', 'types'));
     }
 }

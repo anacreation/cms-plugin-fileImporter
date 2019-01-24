@@ -3,7 +3,7 @@
 namespace Anacreation\CmsFileImporter;
 
 use Anacreation\Cms\Models\Cms;
-use Anacreation\CmsEmail\Models\FileImporter;
+use Anacreation\CmsFileImporter\Models\FileImporter;
 use Illuminate\Support\ServiceProvider;
 
 class CmsFileImporterServiceProvider extends ServiceProvider

@@ -5,7 +5,7 @@
  * Time: 6:48 PM
  */
 
-namespace Anacreation\CmsEmail\Models;
+namespace Anacreation\CmsFileImporter\Models;
 
 
 use Anacreation\CmsFileImporter\Controllers\FileImportersController;

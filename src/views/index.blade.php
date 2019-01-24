@@ -37,7 +37,7 @@
 			</div>
 			<div class="form-group">
 				{{Form::label('lang_code','Identifier Prefix',['class'=>'form-label'])}}
-				{{Form::select('lang_code',array_merge($langCodes,$langCodes),null,['class'=>$errors->has('lang_code')?"form-control is-invalid":"form-control",'required'])}}
+				{{Form::select('lang_code',array_combine($langCodes,$langCodes),null,['class'=>$errors->has('lang_code')?"form-control is-invalid":"form-control",'required'])}}
 				@if ($errors->has('lang_code'))
 					<span class="invalid-feedback">
 			          <strong>{{ $errors->first('lang_code') }}</strong>

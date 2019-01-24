@@ -41,7 +41,7 @@ class FileImportersController extends Controller
             'page_id'      => 'required|exists:pages,id',
             'lang_code'    => 'required|exists:languages,code',
             'content_type' => 'required|in:' . implode(',',
-                    $service->getTypesForJs()),
+                    array_keys($service->getTypesForJs())),
         ]);
 
         $this->execute($request, $service);

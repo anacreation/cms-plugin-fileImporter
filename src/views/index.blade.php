@@ -12,8 +12,6 @@
 			      </span>
 				@endif
 			</div>
-			
-			
 		</form>
 	</div>
 @endsection

@@ -60,7 +60,7 @@ class FileImportersController extends Controller
         $language = Language::whereCode($request->get('lang_code'))->first();
 
         $files = File::files(storage_path('app/' . $request->get('path')));
-        $page = Page::whereUri($request->get('page_id'))->first();
+        $page = Page::find($request->get('page_id'));
 
         /** @var \SplFileInfo $file */
         foreach ($files as $index => $file) {

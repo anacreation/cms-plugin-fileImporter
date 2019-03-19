@@ -41,7 +41,9 @@ class CmsFileImporterServiceProvider extends ServiceProvider
     }
 
     private function registerCmsPlugin(): void {
-        Cms::registerCmsPlugins('CmsFileImporter', 'FileImporter',
+        Cms::registerCmsPlugins(
+            'CmsFileImporter',
+            'CMS File Importer',
             'fileImporter');
         Cms::registerCmsPluginRoutes('CmsFileImporter', function () {
             FileImporter::routes();

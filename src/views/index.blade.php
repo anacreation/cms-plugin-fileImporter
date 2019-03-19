@@ -29,6 +29,7 @@
 			<div class="form-group">
 				{{Form::label('identifier','Identifier Prefix',['class'=>'form-label'])}}
 				{{Form::text('identifier',null,['class'=>$errors->has('identifier')?"form-control is-invalid":"form-control",'required'])}}
+				<small class="helper-text">such as image_1, image_2 (image_ is the prefix) </small>
 				@if ($errors->has('identifier'))
 					<span class="invalid-feedback">
 			          <strong>{{ $errors->first('identifier') }}</strong>
@@ -36,7 +37,7 @@
 				@endif
 			</div>
 			<div class="form-group">
-				{{Form::label('lang_code','Identifier Prefix',['class'=>'form-label'])}}
+				{{Form::label('lang_code','Langauge',['class'=>'form-label'])}}
 				{{Form::select('lang_code',array_combine($langCodes,$langCodes),null,['class'=>$errors->has('lang_code')?"form-control is-invalid":"form-control",'required'])}}
 				@if ($errors->has('lang_code'))
 					<span class="invalid-feedback">

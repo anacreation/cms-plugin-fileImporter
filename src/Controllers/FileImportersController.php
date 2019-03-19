@@ -8,11 +8,13 @@
 namespace Anacreation\CmsFileImporter\Controllers;
 
 
+use Anacreation\Cms\Entities\ContentObject;
 use Anacreation\Cms\Models\Language;
 use Anacreation\Cms\Models\Page;
 use Anacreation\Cms\Services\ContentService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 
 class FileImportersController extends Controller
@@ -59,17 +61,18 @@ class FileImportersController extends Controller
 
         $language = Language::whereCode($request->get('lang_code'))->first();
 
-        $files = File::files(storage_path('app/' . $request->get('path')));
+        $files = File::files($request->get('path'));
+        //        $files = File::files(storage_path('app/' . $request->get('path')));
         $page = Page::find($request->get('page_id'));
 
         /** @var \SplFileInfo $file */
         foreach ($files as $index => $file) {
             $path = $file->getPath() . "/" . $file->getFilename();
 
-            $uploadFile = new \Illuminate\Http\UploadedFile($path,
+            $uploadFile = new UploadedFile($path,
                 $file->getFilename());
 
-            $contentObject = new \Anacreation\Cms\Entities\ContentObject(
+            $contentObject = new ContentObject(
                 $request->get('identifier') . ($index + 1),
                 $language->id,
                 "",

@@ -23,6 +23,17 @@ class FileImportersController extends Controller
         $pages = Page::pluck('uri', 'id');
 
         $types = $service->getTypesForJs();
+        $keys = array_keys($types);
+        $values = array_map(function ($key) {
+            return snake_case($key);
+        }, $keys);
+
+        $values = array_map(function ($value) {
+            return ucwords(str_replace("_", " ", $value));
+        }, $values);
+
+        $types = array_combine($keys, $values);
+
         $langCodes = Language::whereIsActive(true)->pluck('code')->toArray();
 
         return view('cms:fileImporter::index',
